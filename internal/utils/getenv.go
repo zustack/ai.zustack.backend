@@ -10,7 +10,7 @@ import (
 func GetEnv(key string) string {
 	err := godotenv.Load(".env")
 	if err != nil {
-    log.Fatal(err.Error())
+		log.Fatal(err.Error())
 	}
 	return os.Getenv(key)
 }

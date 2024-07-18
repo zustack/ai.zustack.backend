@@ -6,7 +6,5 @@ import (
 )
 
 func UserRoutes(app *fiber.App) {
-  app.Get("/check", handlers.Check)
+	app.Get("/check", handlers.Check)
 }
-
-
