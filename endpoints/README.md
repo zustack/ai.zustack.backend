@@ -1,16 +1,14 @@
 ## Endpoints
 
-- Generate image with stable-diffusion-3-medium
+- Generate image 
 ```bash
-curl -X POST \
+curl -X POST "http://localhost:8080/generate/image" \
      -H "Content-Type: application/json" \
-     -d '{
-          "prompt": "a photograph of an astronaut riding a horse",
-          "cfg_scale": 5,
-          "aspect_ratio": "16:9",
-          "seed": 0,
-          "steps": 50,
-          "negative_prompt": ""
-     }' \
-http://localhost:8080/image/stable-diffusion-3-medium
+     -d '{"prompt": "a photograph of an astronaut riding a horse in space"}'
 ```
+
+- Get all the images
+```bash
+curl -X GET "http://localhost:8080/get/images" | jq
+```
+

@@ -6,5 +6,6 @@ import (
 )
 
 func ImageRoutes(app *fiber.App) {
-	app.Post("/image/stable-diffusion-3-medium", handlers.GenerateImageSD3M)
+	app.Post("/generate/image", handlers.GenerateImage)
+	app.Get("/get/images", handlers.GetImages)
 }

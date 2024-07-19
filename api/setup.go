@@ -12,6 +12,7 @@ func Setup() *fiber.App {
 		AllowOrigins:     "http://localhost:5173",
 		AllowCredentials: true,
 	}))
+	app.Static("/web/uploads", "./web/uploads")
 	routes.UserRoutes(app)
 	routes.ImageRoutes(app)
 	return app
