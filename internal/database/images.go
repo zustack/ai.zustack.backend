@@ -11,9 +11,20 @@ type Image struct {
 	CreatedAt string `json:"created_at"`
 }
 
-func GetImages() ([]Image, error) {
+func GetImagesCount() (int, error) {
+	var count int
+	err := DB.QueryRow("SELECT COUNT(*) FROM images").Scan(&count)
+	if err != nil {
+		return 0, fmt.Errorf("GetImagesCount: %v", err)
+	}
+	return count, nil
+}
+
+func GetImages(searchParam string, limit, cursor int) ([]Image, error) {
+	fmt.Println(searchParam)
 	var images []Image
-	rows, err := DB.Query("SELECT * FROM images ORDER BY id DESC")
+	rows, err := DB.Query("SELECT * FROM images WHERE prompt LIKE ? ORDER BY id LIMIT ? OFFSET ?",
+		searchParam, limit, cursor)
 	if err != nil {
 		return nil, fmt.Errorf("GetImages: %v", err)
 	}

@@ -7,8 +7,8 @@ curl -X POST "http://localhost:8080/generate/image" \
      -d '{"prompt": "a photograph of an astronaut riding a horse in space"}'
 ```
 
-- Get all the images
+- Get the images
 ```bash
-curl -X GET "http://localhost:8080/get/images" | jq
+curl -X GET "http://localhost:8080/get/images?cursor=0&q=" | jq
 ```
 
