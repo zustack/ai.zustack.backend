@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"time"
 
 	"ai.zustack.backend/internal/database"
@@ -20,7 +19,6 @@ func Login(c *fiber.Ctx) error {
 	if len(payload.Username) == 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "username must not be empty.",
-			"code":  "7013",
 		})
 	}
 

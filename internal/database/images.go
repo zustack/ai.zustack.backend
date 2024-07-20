@@ -42,7 +42,7 @@ func GetImages(searchParam string, limit, cursor int) ([]Image, error) {
 	return images, nil
 }
 
-func GenerateImage(prompt, path, userID string, public bool) (int64, error) {
+func GenerateImage(prompt, path string, userID int64, public bool) (int64, error) {
 	result, err := DB.Exec(`
   INSERT INTO images
   (prompt, path, user_id, public) 

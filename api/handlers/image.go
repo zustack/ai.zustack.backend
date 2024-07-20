@@ -64,6 +64,7 @@ func GetImages(c *fiber.Ctx) error {
 }
 
 func GenerateImage(c *fiber.Ctx) error {
+  user := c.Locals("user").(database.User)
 	var payload database.Image
 	if err := c.BodyParser(&payload); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -110,7 +111,7 @@ func GenerateImage(c *fiber.Ctx) error {
 		return c.Status(resp.StatusCode).Send(body)
 	}
 
-	_, err = database.GenerateImage(payload.Prompt, string(body), "1", true)
+	_, err = database.GenerateImage(payload.Prompt, string(body), user.ID, true)
 	if err != nil {
 		return c.SendStatus(500)
 	}
