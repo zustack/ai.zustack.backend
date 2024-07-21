@@ -18,6 +18,50 @@ type ImageResponse struct {
 	NextID     *int             `json:"nextId"`
 }
 
+func GetUserImages(c *fiber.Ctx) error {
+  user := c.Locals("user").(*database.User)
+	cursor, err := strconv.Atoi(c.Query("cursor", "0"))
+	if err != nil {
+		return c.Status(400).SendString("Invalid cursor")
+	}
+
+	limit := 30
+	images, err := database.GetUserImages(user.ID, limit, cursor)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to get images",
+		})
+	}
+
+	totalCount, err := database.GetUserImagesCount(user.ID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to get images count",
+		})
+	}
+
+	var previousID, nextID *int
+	if cursor > 0 {
+		prev := cursor - limit
+		if prev < 0 {
+			prev = 0
+		}
+		previousID = &prev
+	}
+	if cursor+limit < totalCount {
+		next := cursor + limit
+		nextID = &next
+	}
+
+	response := ImageResponse{
+		Data:       images,
+		PreviousID: previousID,
+		NextID:     nextID,
+	}
+
+	return c.JSON(response)
+}
+
 func GetImages(c *fiber.Ctx) error {
 	cursor, err := strconv.Atoi(c.Query("cursor", "0"))
 	if err != nil {
@@ -64,7 +108,7 @@ func GetImages(c *fiber.Ctx) error {
 }
 
 func GenerateImage(c *fiber.Ctx) error {
-  user := c.Locals("user").(database.User)
+  user := c.Locals("user").(*database.User)
 	var payload database.Image
 	if err := c.BodyParser(&payload); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -117,5 +161,4 @@ func GenerateImage(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(200)
-
 }
