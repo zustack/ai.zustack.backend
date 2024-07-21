@@ -1,6 +1,9 @@
 package database
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type Image struct {
 	ID        int64  `json:"id"`
@@ -9,6 +12,18 @@ type Image struct {
 	UserID    string `json:"user_id"`
 	Public    bool   `json:"public"`
 	CreatedAt string `json:"created_at"`
+}
+
+func GetImageByID(id string) (Image, error) {
+	var i Image
+	row := DB.QueryRow(`SELECT * FROM images WHERE id = ?`, id)
+	if err := row.Scan(&i.ID, &i.Prompt, &i.Path, &i.UserID, &i.Public, &i.CreatedAt); err != nil {
+		if err == sql.ErrNoRows {
+      return i, fmt.Errorf("GetImageByID: %s: no such user", id)
+		}
+    return i, fmt.Errorf("GetImageByID: %s: %v", id, err)
+	}
+	return i, nil
 }
 
 func GetUserImages(user_id int64, limit, cursor int) ([]Image, error) {

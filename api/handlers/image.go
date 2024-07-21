@@ -12,6 +12,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GetImageByID(c *fiber.Ctx) error {
+  id := c.Params("id")
+  image, err := database.GetImageByID(id)
+  if err != nil {
+    return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+      "error": "Failed to get image",
+    })
+  }
+  return c.JSON(image)
+}
+
 type ImageResponse struct {
 	Data       []database.Image `json:"data"`
 	PreviousID *int             `json:"previousId"`

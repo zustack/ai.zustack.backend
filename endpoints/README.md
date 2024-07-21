@@ -33,3 +33,8 @@ curl -X GET "http://localhost:8080/get/user/images?cursor=0" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQxMDgxMTEsImlhdCI6MTcyMTUxNjExMSwibmJmIjoxNzIxNTE2MTExLCJzdWIiOjN9.fm_VNKAlFyy49EyZDWlJOGi3x_Ti-KBlhOClppoFm0w" \
 | jq
 ```
+
+- Get the image by id
+```bash
+curl -X GET "http://localhost:8080/image/1" | jq
+```

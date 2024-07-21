@@ -17,3 +17,4 @@ func Setup() *fiber.App {
 	routes.ImageRoutes(app)
 	return app
 }
+
