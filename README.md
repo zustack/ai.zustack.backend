@@ -39,3 +39,8 @@ curl -X GET "http://localhost:8080/get/user/images?cursor=0" \
 ```bash
 curl -X GET "http://localhost:8080/image/1" | jq
 ```
+
+## Database
+```bash
+sqlite3 /path/to/ai.zustack.backend/sqlite.db ".read /path/to/your/ai.zustack.backend/tables.sql"
+```
