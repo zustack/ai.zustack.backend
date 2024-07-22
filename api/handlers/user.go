@@ -71,6 +71,7 @@ func Login(c *fiber.Ctx) error {
 			"error": "cannot create token",
 		})
 	}
+
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"token": tokenString})
 }
 

@@ -13,14 +13,14 @@ import (
 )
 
 func GetImageByID(c *fiber.Ctx) error {
-  id := c.Params("id")
-  image, err := database.GetImageByID(id)
-  if err != nil {
-    return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-      "error": "Failed to get image",
-    })
-  }
-  return c.JSON(image)
+	id := c.Params("id")
+	image, err := database.GetImageByID(id)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"error": "Failed to get image",
+		})
+	}
+	return c.JSON(image)
 }
 
 type ImageResponse struct {
@@ -30,7 +30,7 @@ type ImageResponse struct {
 }
 
 func GetUserImages(c *fiber.Ctx) error {
-  user := c.Locals("user").(*database.User)
+	user := c.Locals("user").(*database.User)
 	cursor, err := strconv.Atoi(c.Query("cursor", "0"))
 	if err != nil {
 		return c.Status(400).SendString("Invalid cursor")
@@ -119,7 +119,7 @@ func GetImages(c *fiber.Ctx) error {
 }
 
 func GenerateImage(c *fiber.Ctx) error {
-  user := c.Locals("user").(*database.User)
+	user := c.Locals("user").(*database.User)
 	var payload database.Image
 	if err := c.BodyParser(&payload); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{

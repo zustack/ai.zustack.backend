@@ -17,9 +17,9 @@ func GetUserByID(id string) (User, error) {
 	row := DB.QueryRow(`SELECT * FROM users WHERE id = ?`, id)
 	if err := row.Scan(&u.ID, &u.Username, &u.Password, &u.CreatedAt); err != nil {
 		if err == sql.ErrNoRows {
-      return u, fmt.Errorf("GetUserByID: %s: no such user", id)
+			return u, fmt.Errorf("GetUserByID: %s: no such user", id)
 		}
-    return u, fmt.Errorf("GetUserByID: %s: %v", id, err)
+		return u, fmt.Errorf("GetUserByID: %s: %v", id, err)
 	}
 	return u, nil
 }

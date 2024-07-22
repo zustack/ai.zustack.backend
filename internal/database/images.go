@@ -19,9 +19,9 @@ func GetImageByID(id string) (Image, error) {
 	row := DB.QueryRow(`SELECT * FROM images WHERE id = ?`, id)
 	if err := row.Scan(&i.ID, &i.Prompt, &i.Path, &i.UserID, &i.Public, &i.CreatedAt); err != nil {
 		if err == sql.ErrNoRows {
-      return i, fmt.Errorf("GetImageByID: %s: no such user", id)
+			return i, fmt.Errorf("GetImageByID: %s: no such user", id)
 		}
-    return i, fmt.Errorf("GetImageByID: %s: %v", id, err)
+		return i, fmt.Errorf("GetImageByID: %s: %v", id, err)
 	}
 	return i, nil
 }
@@ -29,7 +29,7 @@ func GetImageByID(id string) (Image, error) {
 func GetUserImages(user_id int64, limit, cursor int) ([]Image, error) {
 	var images []Image
 	rows, err := DB.Query("SELECT * FROM images WHERE user_id = ? ORDER BY id DESC LIMIT ? OFFSET ?",
-	user_id, limit, cursor)
+		user_id, limit, cursor)
 	if err != nil {
 		return nil, fmt.Errorf("GetUserImages: %v", err)
 	}
@@ -37,12 +37,12 @@ func GetUserImages(user_id int64, limit, cursor int) ([]Image, error) {
 	for rows.Next() {
 		var i Image
 		if err := rows.Scan(&i.ID, &i.Prompt, &i.Path, &i.UserID, &i.Public, &i.CreatedAt); err != nil {
-      return nil, fmt.Errorf("GetUserImages: %v", err)
+			return nil, fmt.Errorf("GetUserImages: %v", err)
 		}
 		images = append(images, i)
 	}
 	if err := rows.Err(); err != nil {
-    return nil, fmt.Errorf("GetUserImages: %v", err)
+		return nil, fmt.Errorf("GetUserImages: %v", err)
 	}
 	return images, nil
 }
