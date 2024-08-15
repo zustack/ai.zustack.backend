@@ -4,12 +4,14 @@ import (
 	"ai.zustack.backend/api/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func Setup() *fiber.App {
 	app := fiber.New()
+  app.Use(logger.New())
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:5173, http://192.168.0.223:5173",
+		AllowOrigins:     "https://ai.zustack.com",
 		AllowCredentials: true,
 	}))
 	app.Static("/web/uploads", "./web/uploads")

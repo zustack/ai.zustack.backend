@@ -1,3 +1,5 @@
 .env
 uploads
 sqlite.db
+config.yml
+run.sh
